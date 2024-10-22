@@ -19,12 +19,14 @@ app.use(session({
   resave: false,
   saveUninitialized: true,
 }));
-app.use(cors({
-  origin: 'https://social-front.vercel.app/',  // Your frontend URL
-  methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allow specific HTTP methods
-  credentials: true // If your request includes credentials like cookies
-}));
+app.use(cors());
 
+app.options('*', (req, res) => {
+  res.header('Access-Control-Allow-Origin', 'https://social-front.vercel.app'); // Replace with your frontend URL
+  res.header('Access-Control-Allow-Methods', 'GET,POST,PUT,DELETE');
+  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  res.sendStatus(200); // Respond with status 200 OK
+});
 // app.use("/",(req,res)=>{
 //   res.send("Hello");
 // })
