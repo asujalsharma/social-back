@@ -1,0 +1,20 @@
+// backend/controllers/authController.js
+const Admin = require('../models/Admin');
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+
+exports.login = async (req, res) => {
+  const { username, password } = req.body;
+  const admin = await Admin.findOne({ username });
+
+  if (!admin) return res.status(404).json({ error: 'Admin not found' });
+
+  if(admin.password!==password){
+    res.status(401).json({message:"Unauthorized"});
+  }
+
+  const token = jwt.sign({ id: admin._id }, process.env.JWT_SECRET);
+  // req.session.token = token;
+
+  res.status(200).json({ message: 'Login successful' ,token});
+};
