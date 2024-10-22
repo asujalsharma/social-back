@@ -19,7 +19,11 @@ app.use(session({
   resave: false,
   saveUninitialized: true,
 }));
-app.use(cors());
+app.use(cors({
+  origin: 'https://social-front.vercel.app/',  // Your frontend URL
+  methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allow specific HTTP methods
+  credentials: true // If your request includes credentials like cookies
+}));
 
 // app.use("/",(req,res)=>{
 //   res.send("Hello");
